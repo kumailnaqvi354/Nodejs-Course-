@@ -1,0 +1,2 @@
+My name is kumail ali
+ this is Nodejs appendFileSync 
