@@ -1,55 +1,44 @@
 const path = require('path')
 const express = require('express');
+const hbs = require('hbs')
 
 const app = express()
 
-// console.log(__dirname);
-// console.log(path.join(__dirname,'../public'));
-const publicDirectoryPath = path.join(__dirname,'../public')
+// Define Paths for express  Config 
+const publicDirectoryPath = path.join(__dirname, '../public')
+const viewsPath = path.join(__dirname, '../templates/views')
+const partialPaths = path.join(__dirname, '../templates/partials')
 
-app.set('view engine','hbs')
+// Setup Handlebars engine and views location
+app.set('view engine', 'hbs')
+app.set('views', viewsPath)
+hbs.registerPartials(partialPaths)
+
+// setup static directory to serve
 app.use(express.static(publicDirectoryPath));
 
+
 app.get('', (req, res) => {
-    res.render('index',{
+    res.render('index', {
         title: 'Weather ',
         name: 'Kumail'
     })
 })
 
-app.get('/about' ,(req, res) => {
-    res.render('about',{
+app.get('/about', (req, res) => {
+    res.render('about', {
         title: 'about ',
         name: 'Kumail'
     })
 })
 
-app.get('/help' ,(req, res) => {
-    res.render('help',{
-        helpText: 'this is some help Text '
+app.get('/help', (req, res) => {
+    res.render('help', {
+        helpText: 'this is some help Text',
+        title: 'help',
+        name: 'kumail ali'
     })
 })
-
-
-// app.get('', (req, res) => {
-//     res.send('<h1>Weather</h1>')
-// })
-
-// app.com
-// app.com/help
-
-// app.get('/help', (req, res) => {
-//     res.send([
-//         { name: 'Andrew' },
-//         { name: 'Sarah' }
-//     ])
-// })
-
-// app.com/about
-// app.get('/about', (req, res) => {
-//     res.send('<h1>About</h1>')
-// })
-
 
 // app.com/weather
 app.get('/weather', (req, res) => {
@@ -59,6 +48,23 @@ app.get('/weather', (req, res) => {
     ])
 })
 
+app.get('/help/*',(req,res)=>{
+    res.render('404',{
+        title: '404',
+        name: 'kumail ali',
+        errorMessage:'Help article not found'
+    })
+})
+
+
+// always comes in the last 
+app.get('*', (req, res) => {
+    res.render('404',{
+        title: '404',
+        name: 'kumail ali',
+        errorMessage:'Page not found'
+    })
+})
 
 app.listen(3000, () => {
     console.log('server is up on port 3000');
