@@ -50,32 +50,25 @@ app.get('/weather', (req, res) => {
         })
     }
 
-    geocode(req.query.address, (error, {latitude, longitude, location}) => {
+    geocode(req.query.address, (error, { latitude, longitude, location } = {}) => {
         if (error) {
             return res.send({
                 error: error
             })
         }
-        forecast(latitude, longitude, (error, forecastData)=>{
+        forecast(latitude, longitude, (error, forecastData) => {
             if (error) {
-                return res.send ({error})
+                return res.send({ error })
             }
             res.send({
                 forecast: forecastData,
-                location: location,
+                location,
                 address: req.query.address
             })
         })
 
     })
 
-    // res.send([
-    //     {
-    //         location: 'Karachi',
-    //         forecast: '30C',
-    //         address: req.query.address
-    //     }
-    // ])
 })
 
 app.get('/products', (req, res) => {
