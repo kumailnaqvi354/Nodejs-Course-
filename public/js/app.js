@@ -5,15 +5,15 @@ const Search = document.querySelector('input');
 const messageOne = document.querySelector('#message-1');
 const messageTwo = document.querySelector('#message-2');
 
-messageOne.textContent = 'From Javascript'
+messageOne.textContent = ''
 messageTwo.textContent = ''
 
 weatherFrom.addEventListener('submit', (e) => {
 
     e.preventDefault();
     const location = Search.value;
-    
-    messageOne.textContent = 'Loading Data...'; 
+
+    messageOne.textContent = 'Loading Data...';
     messageTwo.textContent = '';
 
     fetch('http://localhost:3000/weather?address=' + location).then((response) => {
@@ -23,7 +23,7 @@ weatherFrom.addEventListener('submit', (e) => {
                 messageOne.textContent = data.error
             } else {
                 messageOne.textContent = data.address
-    messageTwo.textContent = data.forecast.latitude +' ' + data.forecast.longitude +' ' +data.forecast.temperature 
+                messageTwo.textContent =  data.forecast
                 // messageTwo.textContent = JSON.stringify(data.forecast)
                 // console.log(data);
             }
